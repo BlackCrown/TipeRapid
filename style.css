@@ -1,0 +1,82 @@
+/*#region ResetCss*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+ul,
+ol,
+dl {
+  list-style: none;
+}
+
+#root,
+#__next {
+  isolation: isolate; /* React/Next.js */
+}
+/*#endregion*/
+
+html {
+  padding: 0px 20px;
+}
+.attribution {
+  font-size: 11px;
+  text-align: center;
+}
+
+.attribution a {
+  color: hsl(228, 45%, 44%);
+}
+
+.difficulty {
+  align-items: center;
+  padding: 10px 0;
+}
+.score {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 40px;
+  background-color: #5f5f61;
+  border-radius: 8px;
+}
+
+.typeText {
+  border: 2px solid black;
+  border-radius: 8px;
+  padding: 10px 20px;
+}

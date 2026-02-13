@@ -5,27 +5,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
   <script src="script.js"></script>
+  <link rel="stylesheet" href="./style.css">
 
   <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
 
-  <title>Frontend Mentor | Typing Speed Test</title>
-
-  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
-  <style>
-    .attribution {
-      font-size: 11px;
-      text-align: center;
-    }
-
-    .attribution a {
-      color: hsl(228, 45%, 44%);
-    }
-  </style>
+  <title>|-Typing Speed Test-|</title>
 </head>
 
 <body style="height: 100vh">
 
-  <header>
+  <header class="">
     <h3>Typing Speed Test</h3>
     <p>Type as fast as you can and improve your WPM!</p>
     <div>
@@ -33,29 +22,34 @@
         Personal best: <!-- PB --> WPM
       </p>
     </div>
+
+
+    <section class="difficulty">
+      <div class="score">
+        <p>WPM: <!-- WPM --></p>
+        <p>Accuracy: <!-- Accuracy --></p>
+        <p>Time: <!-- Time --></p>
+      </div>
+
+      <div>
+        <div class="difficulty">
+          <p>Difficulty:</p>
+          <label><input type="radio" name="difficulty" value="easy" checked>Easy</label>
+          <label><input type="radio" name="difficulty" value="medium">Medium</label>
+          <label><input type="radio" name="difficulty" value="hard">Hard</label>
+
+        </div>
+
+        <div style="display: flex; align-items: center;">
+          <p>Mode:</p>
+          <label><input type="radio" name="mode" value="timed" checked>Timed (60s)</label>
+          <label><input type="radio" name="mode" value="passage">Passage</label>
+        </div>
+      </div>
+    </section>
   </header>
 
-  <section>
-    <div>
-      <p>WPM: <!-- WPM --></p>
-      <p>Accuracy: <!-- Accuracy --></p>
-      <p>Time: <!-- Time --></p>
-    </div>
-    <div>
-      <p>Difficulty:</p>
-      <label><input type="radio" name="difficulty" value="easy" checked>Easy</label>
-      <label><input type="radio" name="difficulty" value="medium">Medium</label>
-      <label><input type="radio" name="difficulty" value="hard">Hard</label>
-    </div>
-
-    <div>
-      <p>Mode:</p>
-      <label><input type="radio" name="mode" value="timed" checked>Timed (60s)</label>
-      <label><input type="radio" name="mode" value="passage">Passage</label>
-    </div>
-  </section>
-
-  <main>
+  <main class="typeText">
     <p id="passage">Text to type will apear hear!!!</p>
 
     <button id="start" onclick="Start()">Start Typing Test</button>

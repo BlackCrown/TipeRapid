@@ -1,0 +1,45 @@
+# Dependências
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build e distribuição
+dist/
+build/
+*.log
+.env*.local
+
+# Arquivos de ambiente (mas mantenha exemplo)
+.env
+!.env.example
+
+# IDEs e editores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Testes e coverage
+coverage/
+.nyc_output/
+*.lcov
+
+# Next.js (se usar)
+.next/
+out/
+
+# Vite (se usar)
+dist/
+*.log
+
+# Logs do npm/yarn
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+typing-speed-test-main.zip
