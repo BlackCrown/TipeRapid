@@ -63,16 +63,20 @@ html {
   color: hsl(228, 45%, 44%);
 }
 
-.difficulty {
-  align-items: center;
-  padding: 10px 0;
-}
 .score {
   display: flex;
   justify-content: space-between;
   padding: 10px 40px;
   background-color: #5f5f61;
   border-radius: 8px;
+}
+.mode {
+  display: flex;
+  align-items: center;
+}
+.difficulty {
+  align-items: center;
+  padding: 10px 0;
 }
 
 .typeText {

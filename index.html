@@ -33,17 +33,18 @@
 
       <div>
         <div class="difficulty">
-          <p>Difficulty:</p>
-          <label><input type="radio" name="difficulty" value="easy" checked>Easy</label>
-          <label><input type="radio" name="difficulty" value="medium">Medium</label>
-          <label><input type="radio" name="difficulty" value="hard">Hard</label>
-
+          <p>Difficulty:
+            <label><input type="radio" name="difficulty" value="easy" checked>Easy</label>
+            <label><input type="radio" name="difficulty" value="medium">Medium</label>
+            <label><input type="radio" name="difficulty" value="hard">Hard</label>
+          </p>
         </div>
 
-        <div style="display: flex; align-items: center;">
-          <p>Mode:</p>
-          <label><input type="radio" name="mode" value="timed" checked>Timed (60s)</label>
-          <label><input type="radio" name="mode" value="passage">Passage</label>
+        <div clas="mode">
+          <p>Mode:
+            <label><input type="radio" name="mode" value="timed" checked>Timed (60s)</label>
+            <label><input type="radio" name="mode" value="passage">Passage</label>
+          </p>
         </div>
       </div>
     </section>
@@ -53,7 +54,6 @@
     <p id="passage">Text to type will apear hear!!!</p>
 
     <button id="start" onclick="Start()">Start Typing Test</button>
-    <strong>Or click the text and start typing</strong>
   </main>
 
 
