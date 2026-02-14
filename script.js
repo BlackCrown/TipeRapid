@@ -32,5 +32,20 @@ async function generatePassage() {
 async function checkLetters() {
   const text = await generatePassage();
   const textCharacters = text.split('');
-  console.log(textCharacters);
+
+  let i = 0;
+  let markText = [];
+  document.addEventListener('keydown', function (e) {
+    e.preventDefault(e.code === 'Space');
+    if (e.key === textCharacters[i]) {
+      console.log('V', i);
+      markText.push(textCharacters[i]);
+      i = i + 1;
+    } else {
+      i = i;
+      markText.push(`<strong>${textCharacters[i]}<strong>`);
+      console.log('X', i);
+    }
+    document.getElementById('digitado').innerText = markText.join('');
+  });
 }
