@@ -32,7 +32,6 @@ async function getCorrection() {
   const passage = document.getElementById('passage');
   const text = await generatePassage();
   const textCharacters = text.split('');
-  const typed = [];
 
   passage.innerText = '';
   for (i = 0; i < textCharacters.length; ) {
@@ -47,11 +46,12 @@ async function getCorrection() {
   const start = document.getElementById('start');
   start.disabled = true;
   let current = 0;
+  let wrong = 0;
   const edit = document.getElementById(`char-${current}`);
   edit.className = 'current';
   document.addEventListener('keydown', (e) => {
     e.preventDefault();
-    if (/^[a-zA-Z\s\.\!\?\:\;\-\(\),']*$/.test(e.key)) {
+    if (current < textCharacters.length) {
       if (
         !/^[a-zA-Z0-9À-ÿ\s\.,;:!?\-()'"']*$/i.test(e.key) ||
         e.key === 'Shift'
@@ -61,21 +61,24 @@ async function getCorrection() {
         const edit = document.getElementById(`char-${current}`);
         edit.className = 'correct';
         current += 1;
-        console.log(current + 'correct');
+        updateAccuracy(wrong, current);
       } else {
         const edit = document.getElementById(`char-${current}`);
         edit.className = 'wrong';
         current += 1;
-        console.log(current + 'wrong');
+        wrong += 1;
+        updateAccuracy(wrong, current);
       }
+      const edit = document.getElementById(`char-${current}`);
+      edit.className = 'current';
+    } else {
+      return console.log('Teste Completo');
     }
-    const edit = document.getElementById(`char-${current}`);
-    edit.className = 'current';
   });
 }
 
-function checkLetter(char, typ) {
-  if (char === typ) {
-    return '<p>' + char + '</p>';
-  } else return '<strong>' + char + '</strong>';
+function updateAccuracy(wrongCount, charCount) {
+  const score = Math.round(((charCount - wrongCount) / charCount) * 100);
+  const accuracy = document.getElementById(`accuracy`);
+  accuracy.innerText = `Acurracy: ${score}%`;
 }
