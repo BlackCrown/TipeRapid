@@ -3,7 +3,7 @@ let difficulty = '';
 function Start() {
   difficulty = getDificulty();
   getMode();
-  checkLetters();
+  getCorrection();
 }
 
 function getDificulty() {
@@ -25,27 +25,57 @@ async function generatePassage() {
   let passage =
     dados[difficulty][Math.floor(Math.random() * dados[difficulty].length)]
       .text;
-  document.getElementById('passage').innerText = passage;
   return passage;
 }
 
-async function checkLetters() {
+async function getCorrection() {
+  const passage = document.getElementById('passage');
   const text = await generatePassage();
   const textCharacters = text.split('');
+  const typed = [];
 
-  let i = 0;
-  let markText = [];
-  document.addEventListener('keydown', function (e) {
-    e.preventDefault(e.code === 'Space');
-    if (e.key === textCharacters[i]) {
-      console.log('V', i);
-      markText.push(textCharacters[i]);
-      i = i + 1;
-    } else {
-      i = i;
-      markText.push(`<strong>${textCharacters[i]}<strong>`);
-      console.log('X', i);
+  passage.innerText = '';
+  for (i = 0; i < textCharacters.length; ) {
+    const span = document.createElement('span');
+    span.textContent = textCharacters[i];
+    span.style.color = 'black';
+    span.id = `char-${i}`;
+    document.getElementById('passage').appendChild(span);
+    i++;
+  }
+
+  const start = document.getElementById('start');
+  start.disabled = true;
+  let current = 0;
+  const edit = document.getElementById(`char-${current}`);
+  edit.className = 'current';
+  document.addEventListener('keydown', (e) => {
+    e.preventDefault();
+    if (/^[a-zA-Z\s\.\!\?\:\;\-\(\),']*$/.test(e.key)) {
+      if (
+        !/^[a-zA-Z0-9À-ÿ\s\.,;:!?\-()'"']*$/i.test(e.key) ||
+        e.key === 'Shift'
+      ) {
+        e.preventDefault();
+      } else if (e.key === textCharacters[current]) {
+        const edit = document.getElementById(`char-${current}`);
+        edit.className = 'correct';
+        current += 1;
+        console.log(current + 'correct');
+      } else {
+        const edit = document.getElementById(`char-${current}`);
+        edit.className = 'wrong';
+        current += 1;
+        console.log(current + 'wrong');
+      }
     }
-    document.getElementById('digitado').innerText = markText.join('');
+    const edit = document.getElementById(`char-${current}`);
+    edit.className = 'current';
   });
+}
+
+function checkLetter(char, typ) {
+  if (char === typ) {
+    return '<p>' + char + '</p>';
+  } else return '<strong>' + char + '</strong>';
 }

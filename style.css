@@ -84,3 +84,23 @@ html {
   border-radius: 8px;
   padding: 10px 20px;
 }
+
+#passage span.correct {
+  color: green !important;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 8px;
+}
+#passage span.wrong {
+  color: red !important;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 8px;
+}
+#passage span.current {
+  color: white !important;
+  background: #2b2a2a;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 8px;
+}
