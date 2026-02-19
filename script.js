@@ -3,14 +3,18 @@ let timerEnd = false;
 let acurracy = 0;
 let score = 0;
 let wpm = 0;
+let time = 60;
+let interval = null;
 
 function Start() {
   let modal = document.getElementById('modal');
   modal.style.display = 'none';
   difficulty = getDificulty();
-  getMode();
+  if (getMode() === 'timed') {
+    time = 60;
+    interval = setInterval(startTimer, 1000);
+  }
   getCorrection();
-  startTimer();
 }
 
 function getDificulty() {
@@ -58,7 +62,7 @@ async function getCorrection() {
   edit.className = 'current';
   document.addEventListener('keydown', (e) => {
     e.preventDefault();
-    if (current < textCharacters.length || (timerEnd = true)) {
+    if (current < textCharacters.length || timerEnd == true) {
       if (
         !/^[a-zA-Z0-9À-ÿ\s\.,;:!?\-()'"']*$/i.test(e.key) ||
         e.key === 'Shift'
@@ -68,6 +72,9 @@ async function getCorrection() {
         const edit = document.getElementById(`char-${current}`);
         edit.className = 'correct';
         current += 1;
+        const currentChar = document.getElementById(`char-${current}`);
+        currentChar.className = 'current';
+        console.log(current + '?' + textCharacters.length);
         updateAccuracy(wrong, current);
       } else {
         const edit = document.getElementById(`char-${current}`);
@@ -75,9 +82,10 @@ async function getCorrection() {
         current += 1;
         wrong += 1;
         updateAccuracy(wrong, current);
+        const currentChar = document.getElementById(`char-${current}`);
+        currentChar.className = 'current';
+        console.log(current + '-' + textCharacters.length);
       }
-      const edit = document.getElementById(`char-${current}`);
-      edit.className = 'current';
     } else {
       endTest();
       passage.innerText = 'Text to type will apear hear!!!';
@@ -95,13 +103,18 @@ function updateAccuracy(wrongCount, charCount) {
 }
 
 function startTimer() {
-  const time = 60;
-  let timer = setTimeout(() => {
+  const timerElement = document.getElementById('timer');
+  timerElement.textContent = `Time: ${time}`;
+  if (time <= 0) {
+    clearInterval(interval);
+    timerElement.textContent = 'Timer: 00';
+    timerEnd = true;
     endTest();
-  }, time * 100);
+  }
+  time--;
 }
 
-function endTest(acur) {
+function endTest() {
   console.log('O teste acabou');
   timerEnd = true;
   modal.style.display = 'block';
