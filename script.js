@@ -1,9 +1,16 @@
 let difficulty = '';
+let timerEnd = false;
+let acurracy = 0;
+let score = 0;
+let wpm = 0;
 
 function Start() {
+  let modal = document.getElementById('modal');
+  modal.style.display = 'none';
   difficulty = getDificulty();
   getMode();
   getCorrection();
+  startTimer();
 }
 
 function getDificulty() {
@@ -51,7 +58,7 @@ async function getCorrection() {
   edit.className = 'current';
   document.addEventListener('keydown', (e) => {
     e.preventDefault();
-    if (current < textCharacters.length) {
+    if (current < textCharacters.length || (timerEnd = true)) {
       if (
         !/^[a-zA-Z0-9À-ÿ\s\.,;:!?\-()'"']*$/i.test(e.key) ||
         e.key === 'Shift'
@@ -72,13 +79,36 @@ async function getCorrection() {
       const edit = document.getElementById(`char-${current}`);
       edit.className = 'current';
     } else {
+      endTest();
+      passage.innerText = 'Text to type will apear hear!!!';
       return console.log('Teste Completo');
     }
   });
 }
 
 function updateAccuracy(wrongCount, charCount) {
-  const score = Math.round(((charCount - wrongCount) / charCount) * 100);
-  const accuracy = document.getElementById(`accuracy`);
-  accuracy.innerText = `Acurracy: ${score}%`;
+  score = charCount - wrongCount;
+  acurracy = Math.round((score / charCount) * 100);
+  const accuracyElement = document.getElementById(`accuracy`);
+  accuracyElement.innerText = `Accuracy: ${acurracy}%`;
+  return acurracy;
+}
+
+function startTimer() {
+  const time = 60;
+  let timer = setTimeout(() => {
+    endTest();
+  }, time * 100);
+}
+
+function endTest(acur) {
+  console.log('O teste acabou');
+  timerEnd = true;
+  modal.style.display = 'block';
+  const finalAccuracy = document.getElementById('finalAccuracy');
+  const finalScore = document.getElementById('finalScore');
+  const finalWpm = document.getElementById('finalWpm');
+  finalAccuracy.innerText = `Acurracy: ${acurracy}%`;
+  finalScore.innerText = `Score: ${score}`;
+  finalWpm.innerText = `WPM: ${wpm}`;
 }
