@@ -87,6 +87,9 @@ html {
   padding: 10px 20px;
 }
 
+#passage {
+  margin: 0 8px;
+}
 #passage span.correct {
   color: green !important;
   width: fit-content;
@@ -130,6 +133,26 @@ html {
   border: 3px solid black;
   background: rgba(175, 175, 175, 0.8);
   border-radius: 25px;
+}
+#modalContent .fecharModal {
+  display: flex;
+  color: red;
+  font-size: 18px;
+  position: absolute;
+  padding: 4px;
+  transform: rotate(90deg);
+  right: 5px;
+  top: -15px;
+  border-radius: 6px;
+  border: 1px solid rgba(200, 50, 50, 1);
+  background: rgba(175, 175, 175, 0.6);
+  cursor: pointer;
+}
+button {
+  padding: 4px;
+  border-radius: 6px;
+  border: 1px solid rgba(50, 150, 50, 1);
+  background: rgba(175, 195, 175, 0.6);
 }
 
 footer {

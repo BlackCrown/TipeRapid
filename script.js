@@ -1,18 +1,27 @@
 let difficulty = '';
 let timerEnd = false;
+let current = 0;
 let acurracy = 0;
 let score = 0;
 let wpm = 0;
-let time = 60;
+let time = 0;
 let interval = null;
+let modal;
 
 function Start() {
-  let modal = document.getElementById('modal');
+  modal = document.getElementById('modal');
   modal.style.display = 'none';
   difficulty = getDificulty();
   if (getMode() === 'timed') {
-    time = 60;
+    time = 2;
+    wpm = 0;
+    current = 0;
     interval = setInterval(startTimer, 1000);
+  } else {
+    time = 0;
+    wpm = 0;
+    interval = setInterval(startTimer, 1000);
+    timerEnd = false;
   }
   getCorrection();
 }
@@ -56,11 +65,10 @@ async function getCorrection() {
 
   const start = document.getElementById('start');
   start.disabled = true;
-  let current = 0;
   let wrong = 0;
   const edit = document.getElementById(`char-${current}`);
   edit.className = 'current';
-  document.addEventListener('keydown', (e) => {
+  document.addEventListener('keydown', function keyPress(e) {
     e.preventDefault();
     if (current < textCharacters.length || timerEnd == true) {
       if (
@@ -74,24 +82,28 @@ async function getCorrection() {
         current += 1;
         const currentChar = document.getElementById(`char-${current}`);
         currentChar.className = 'current';
-        console.log(current + '?' + textCharacters.length);
-        updateAccuracy(wrong, current);
+        updateAccuracy(wrong, textCharacters.length);
       } else {
         const edit = document.getElementById(`char-${current}`);
         edit.className = 'wrong';
         current += 1;
         wrong += 1;
-        updateAccuracy(wrong, current);
+        updateAccuracy(wrong, textCharacters.length);
         const currentChar = document.getElementById(`char-${current}`);
         currentChar.className = 'current';
-        console.log(current + '-' + textCharacters.length);
       }
     } else {
+      document.removeEventListener('keydown', keyPress);
       endTest();
-      passage.innerText = 'Text to type will apear hear!!!';
       return console.log('Teste Completo');
     }
   });
+}
+
+function calcWpm() {
+  wpm = current / 60;
+  const wpmElement = document.getElementById('wpm');
+  wpmElement.textContent = `WPM: ${Math.round(wpm)}`;
 }
 
 function updateAccuracy(wrongCount, charCount) {
@@ -105,23 +117,35 @@ function updateAccuracy(wrongCount, charCount) {
 function startTimer() {
   const timerElement = document.getElementById('timer');
   timerElement.textContent = `Time: ${time}`;
-  if (time <= 0) {
-    clearInterval(interval);
+  console.log(timerEnd);
+  if ((time >= 0) & (getMode() == 'timed')) {
+    time--;
+    calcWpm();
+  } else if ((getMode() == 'passage') & (timerEnd == false)) {
+    time++;
+    calcWpm();
+  } else {
     timerElement.textContent = 'Timer: 00';
-    timerEnd = true;
     endTest();
   }
-  time--;
 }
 
 function endTest() {
-  console.log('O teste acabou');
+  passage.innerText = 'Text to type will apear hear!!!';
   timerEnd = true;
   modal.style.display = 'block';
+  const start = document.getElementById('start');
+  start.disabled = false;
   const finalAccuracy = document.getElementById('finalAccuracy');
   const finalScore = document.getElementById('finalScore');
   const finalWpm = document.getElementById('finalWpm');
   finalAccuracy.innerText = `Acurracy: ${acurracy}%`;
   finalScore.innerText = `Score: ${score}`;
   finalWpm.innerText = `WPM: ${wpm}`;
+  clearInterval(interval);
+}
+
+function fecharModal() {
+  const fecharModal = document.getElementById('modal');
+  fecharModal.style.display = 'none';
 }
