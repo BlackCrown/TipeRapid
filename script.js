@@ -4,6 +4,7 @@ let current = 0;
 let acurracy = 0;
 let score = 0;
 let wpm = 0;
+let wpmTime = 1;
 let time = 0;
 let interval = null;
 let modal;
@@ -13,13 +14,14 @@ function Start() {
   modal.style.display = 'none';
   difficulty = getDificulty();
   if (getMode() === 'timed') {
-    time = 2;
+    time = 60;
     wpm = 0;
     current = 0;
     interval = setInterval(startTimer, 1000);
   } else {
     time = 0;
     wpm = 0;
+    current = 0;
     interval = setInterval(startTimer, 1000);
     timerEnd = false;
   }
@@ -81,7 +83,7 @@ async function getCorrection() {
         edit.className = 'correct';
         current += 1;
         const currentChar = document.getElementById(`char-${current}`);
-        currentChar.className = 'current';
+        currentChar ? (currentChar.className = 'current') : endTest(keyPress);
         updateAccuracy(wrong, textCharacters.length);
       } else {
         const edit = document.getElementById(`char-${current}`);
@@ -90,20 +92,18 @@ async function getCorrection() {
         wrong += 1;
         updateAccuracy(wrong, textCharacters.length);
         const currentChar = document.getElementById(`char-${current}`);
-        currentChar.className = 'current';
+        currentChar ? (currentChar.className = 'current') : endTest(keyPress);
       }
     } else {
-      document.removeEventListener('keydown', keyPress);
-      endTest();
-      return console.log('Teste Completo');
+      endTest(keyPress);
     }
   });
 }
 
-function calcWpm() {
-  wpm = current / 60;
+function calcWpm(current, wpmTime) {
+  wpm = current / 5;
   const wpmElement = document.getElementById('wpm');
-  wpmElement.textContent = `WPM: ${Math.round(wpm)}`;
+  wpmElement.textContent = `WPM: ${Math.round(wpm / wpmTime)}`;
 }
 
 function updateAccuracy(wrongCount, charCount) {
@@ -117,20 +117,20 @@ function updateAccuracy(wrongCount, charCount) {
 function startTimer() {
   const timerElement = document.getElementById('timer');
   timerElement.textContent = `Time: ${time}`;
-  console.log(timerEnd);
   if ((time >= 0) & (getMode() == 'timed')) {
     time--;
-    calcWpm();
+    calcWpm(current, wpmTime);
   } else if ((getMode() == 'passage') & (timerEnd == false)) {
     time++;
-    calcWpm();
+    calcWpm(current, wpmTime);
   } else {
     timerElement.textContent = 'Timer: 00';
     endTest();
   }
 }
 
-function endTest() {
+function endTest(keyPress) {
+  document.removeEventListener('keydown', keyPress);
   passage.innerText = 'Text to type will apear hear!!!';
   timerEnd = true;
   modal.style.display = 'block';
