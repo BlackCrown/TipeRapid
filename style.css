@@ -57,9 +57,28 @@ dl {
 }
 /*#endregion*/
 
+/*#region variables */
+:root {
+  --color-border: black;
+  --color-bg: rgba(175, 175, 175, 0.8);
+  --color-principal: rgba(244, 244, 244, 0.86);
+  --color-secondary: rgba(74, 77, 79, 0.86);
+  --color-text-secondary: white;
+}
+
+/*#endregion */
+
+[data-theme='dark'] {
+  --color-border: white;
+  --color-bg: rgba(244, 244, 244, 0.86);
+  --color-principal: rgba(175, 175, 175, 0.8);
+  --color-secondary: rgba(74, 77, 79, 0.86);
+  --color-text-secondary: black;
+}
 html {
   padding: 0px 20px;
   z-index: 1;
+  background-color: var(--color-principal);
 }
 .attribution {
   font-size: 11px;
@@ -75,7 +94,7 @@ html {
   justify-content: space-between;
   padding: 10px 40px;
   border: 2px solid rgba(50, 50, 50, 1);
-  background-color: rgba(175, 175, 175, 0.8);
+  background-color: var(--color-bg);
   border-radius: 8px;
 }
 
@@ -98,7 +117,7 @@ html {
 }
 
 .radio-group {
-  border: 2px solid black;
+  border: 2px solid var(--color-border);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -144,7 +163,7 @@ label input[type='radio']:checked {
 }
 
 .typeText {
-  border: 2px solid rgba(50, 50, 50, 1);
+  border: 2px solid var(--color-border);
   border-radius: 8px;
   padding: 10px 20px;
 }
@@ -166,8 +185,8 @@ label input[type='radio']:checked {
   border-radius: 8px;
 }
 #passage span.current {
-  color: white !important;
-  background: #2b2a2a;
+  color: var(--color-text-secondary) !important;
+  background: var(--color-border);
   width: fit-content;
   height: fit-content;
   border-radius: 8px;
@@ -192,8 +211,8 @@ label input[type='radio']:checked {
   position: absolute;
   z-index: 1000;
   justify-self: center;
-  border: 3px solid black;
-  background: rgba(175, 175, 175, 0.8);
+  border: 3px solid var(--color-border);
+  background: var(--color-bg);
   border-radius: 25px;
 }
 #modalContent .fecharModal {
@@ -207,7 +226,7 @@ label input[type='radio']:checked {
   top: -15px;
   border-radius: 6px;
   border: 1px solid rgba(200, 50, 50, 1);
-  background: rgba(175, 175, 175, 0.6);
+  background: var(--color-bg);
   cursor: pointer;
 }
 button {
@@ -215,14 +234,73 @@ button {
   border-radius: 6px;
   border: 1px solid rgba(50, 150, 50, 1);
   background: rgba(175, 195, 175, 0.6);
+  cursor: pointer;
 }
-
 footer {
-  background: rgba(175, 175, 175, 0.6);
+  background: var(--color-bg);
   padding: 20px;
+  max-width: 900px;
   width: 100%;
   border-radius: 18px 18px 0 0;
   position: fixed;
   bottom: 0;
-  left: 0;
+  justify-self: center;
 }
+
+/*#region mediaqueryes*/
+
+@media (max-width: 481px) {
+  .container-media {
+    padding: 20px;
+    max-width: 768px;
+    margin: 0 auto;
+  }
+  .btn {
+    width: auto;
+    padding: 12px 24px;
+  }
+  .mode,
+  .difficulty {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .radio-custom {
+    border: 8px;
+  }
+}
+
+/* Monitor/Desktop (769px+) */
+@media (min-width: 769px) {
+  .container-media {
+    padding: 40px;
+    max-width: 1200px;
+  }
+
+  .score {
+    width: 100%;
+    max-width: 800px;
+    place-self: center;
+  }
+
+  .typeText {
+    place-self: center;
+    width: 100%;
+    max-width: 600px;
+    justify-items: center;
+  }
+
+  .btn {
+    display: flex;
+    place-self: center;
+  }
+}
+
+/* Monitor Grande (1201px+) */
+@media (min-width: 1201px) {
+  .container-media {
+    max-width: 1400px;
+  }
+}
+/*#endregion#*/

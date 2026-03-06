@@ -7,25 +7,35 @@ let wpm = 0;
 let wpmTime = 1;
 let time = 0;
 let interval = null;
-let modal;
+let modal = null;
+let testState = false;
+let eListenner = null;
+let start = null;
 
 function Start() {
   modal = document.getElementById('modal');
-  modal.style.display = 'none';
-  difficulty = getDificulty();
-  if (getMode() === 'timed') {
-    time = 60;
-    wpm = 0;
-    current = 0;
-    interval = setInterval(startTimer, 1000);
+  start = document.getElementById('start');
+  if (testState == false) {
+    modal.style.display = 'none';
+    start.innerText = 'End Test';
+    difficulty = getDificulty();
+    testState = true;
+    if (getMode() === 'timed') {
+      time = 60;
+      wpm = 0;
+      current = 0;
+      interval = setInterval(startTimer, 1000);
+    } else {
+      time = 0;
+      wpm = 0;
+      current = 0;
+      interval = setInterval(startTimer, 1000);
+      timerEnd = false;
+    }
+    getCorrection();
   } else {
-    time = 0;
-    wpm = 0;
-    current = 0;
-    interval = setInterval(startTimer, 1000);
-    timerEnd = false;
+    endTest();
   }
-  getCorrection();
 }
 
 function getDificulty() {
@@ -65,8 +75,6 @@ async function getCorrection() {
     i++;
   }
 
-  const start = document.getElementById('start');
-  start.disabled = true;
   let wrong = 0;
   const edit = document.getElementById(`char-${current}`);
   edit.className = 'current';
@@ -83,7 +91,8 @@ async function getCorrection() {
         edit.className = 'correct';
         current += 1;
         const currentChar = document.getElementById(`char-${current}`);
-        currentChar ? (currentChar.className = 'current') : endTest(keyPress);
+        eListenner = keyPress;
+        currentChar ? (currentChar.className = 'current') : endTest();
         updateAccuracy(wrong, textCharacters.length);
       } else {
         const edit = document.getElementById(`char-${current}`);
@@ -92,10 +101,10 @@ async function getCorrection() {
         wrong += 1;
         updateAccuracy(wrong, textCharacters.length);
         const currentChar = document.getElementById(`char-${current}`);
-        currentChar ? (currentChar.className = 'current') : endTest(keyPress);
+        currentChar ? (currentChar.className = 'current') : endTest();
       }
     } else {
-      endTest(keyPress);
+      endTest();
     }
   });
 }
@@ -129,18 +138,18 @@ function startTimer() {
   }
 }
 
-function endTest(keyPress) {
-  document.removeEventListener('keydown', keyPress);
+function endTest() {
+  document.removeEventListener('keydown', eListenner);
   passage.innerText = 'Text to type will apear hear!!!';
+  start.innerText = 'Start Test';
   timerEnd = true;
-  modal.style.display = 'block';
-  const start = document.getElementById('start');
-  start.disabled = false;
+  testState = false;
+  this.modal.style.display = 'block';
   const finalAccuracy = document.getElementById('finalAccuracy');
   const finalScore = document.getElementById('finalScore');
   const finalWpm = document.getElementById('finalWpm');
   finalAccuracy.innerText = `Acurracy: ${acurracy}%`;
-  finalScore.innerText = `Score: ${score}`;
+  finalScore.innerText = `Score: ${score} / ${current}`;
   finalWpm.innerText = `WPM: ${wpm}`;
   clearInterval(interval);
 }
@@ -148,4 +157,33 @@ function endTest(keyPress) {
 function fecharModal() {
   const fecharModal = document.getElementById('modal');
   fecharModal.style.display = 'none';
+}
+
+function mudarTema() {
+  const select = document.getElementById('temaToggle');
+  const html = document.documentElement;
+
+  if (select.value === 'light') {
+    html.setAttribute('data-theme', 'light');
+    localStorage.setItem('tema', 'light');
+  } else if (select.value === 'dark') {
+    html.setAttribute('data-theme', 'dark');
+    localStorage.setItem('tema', 'dark');
+  } else {
+    // Auto (prefers-color-scheme)
+    html.removeAttribute('data-theme');
+    localStorage.removeItem('tema');
+  }
+}
+
+// Carrega preferência salva
+const temaSalvo = localStorage.getItem('tema');
+if (temaSalvo) {
+  document.documentElement.setAttribute('data-theme', temaSalvo);
+  document.getElementById('temaToggle').value = temaSalvo;
+}
+
+// Detecta prefers-color-scheme
+if (!temaSalvo && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+  document.documentElement.setAttribute('data-theme', 'dark');
 }

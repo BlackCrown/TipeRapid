@@ -16,16 +16,26 @@
 <body style="height: 100vh">
 
   <header class="">
-    <h3>Typing Speed Test</h3>
-    <p>Type as fast as you can and improve your WPM!</p>
-    <div>
-      <p>
-        Personal best: <!-- PB --> WPM
-      </p>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <div>
+        <h1>TipeRapid</h1>
+        <p>Type as fast as you can and improve your WPM!</p>
+        <div>
+          <p>
+            Personal best: <!-- PB --> WPM
+          </p>
+        </div>
+      </div>
+
+      <select id="temaToggle" onchange="mudarTema()">
+        <option value="light">☀️ Dia</option>
+        <option value="dark">🌙 Noite</option>
+        <option value="auto" selected>🔄 Auto</option>
+      </select>
     </div>
 
 
-    <section>
+    <section class="container-media">
       <div class="score">
         <p id="wpm">WPM: 000</p>
         <p id="accuracy">Accuracy: 00%</p>
@@ -34,23 +44,23 @@
 
       <div class="container-flex">
         <div class="difficulty">
-          <p>Difficulty:
+          <div>Difficulty:</div>
           <div class="radio-group">
             <label class="radio-custom"><input type="radio" name="difficulty" value="easy" checked>
               Easy</label>
             <label class="radio-custom"><input type="radio" name="difficulty" value="medium">Medium</label>
             <label class="radio-custom"><input type="radio" name="difficulty" value="hard">Hard</label>
           </div>
-          </p>
+
         </div>
 
         <div class="mode">
-          <p>Mode:
+          <div>Mode:</div>
           <div class="radio-group">
             <label class="radio-custom"><input type="radio" name="mode" value="timed">Timed (60s)</label>
             <label class="radio-custom"><input type="radio" name="mode" value="passage" checked>Passage</label>
           </div>
-          </p>
+
         </div>
       </div>
     </section>
@@ -59,7 +69,7 @@
   <main class="typeText">
     <div id="passage">Text to type will apear hear!!!</div>
 
-    <button id="start" onclick="Start()">Start Test</button>
+    <button id="start" class="btn" onclick="Start()">Start Test</button>
   </main>
 
 
@@ -68,7 +78,7 @@
 
 <!-- Test Complete Start -->
 
-<div id="modal" clasName="modal">
+<div id="modal" clasName="modal container-media">
   <div id="modalContent" className="modalContent" style="align-content: end;">
     <span id="fecharModal" class="fecharModal" onclick="fecharModal()">&times;</span>
     <p>Test Complete!
@@ -78,7 +88,7 @@
       <li id="finalAccuracy">Accuracy: <!-- Accuracy --></li>
       <li id="finalScore">Characters: <!-- Correct/Incorrect --></li>
     </ul>
-    <button id="start" onclick="Start()">Go again</button>
+    <button id="start" class="btn" onclick="Start()">Go again</button>
   </div>
 </div>
 
