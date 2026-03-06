@@ -247,6 +247,12 @@ footer {
   justify-self: center;
 }
 
+.container-media {
+  max-width: 1400px;
+  width: 100%;
+  justify-self: center;
+}
+
 /*#region mediaqueryes*/
 
 @media (max-width: 481px) {
@@ -254,6 +260,7 @@ footer {
     padding: 20px;
     max-width: 768px;
     margin: 0 auto;
+    place-self: center;
   }
   .btn {
     width: auto;
@@ -298,9 +305,4 @@ footer {
 }
 
 /* Monitor Grande (1201px+) */
-@media (min-width: 1201px) {
-  .container-media {
-    max-width: 1400px;
-  }
-}
 /*#endregion#*/
